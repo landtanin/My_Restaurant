@@ -17,7 +17,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Create & Connected Database
         createAndConnectDatabase();
-    } // onCreate
+    } // onCreatedgf
 
     private void createAndConnectDatabase() {
         objUserTABLE = new UserTABLE(this);
