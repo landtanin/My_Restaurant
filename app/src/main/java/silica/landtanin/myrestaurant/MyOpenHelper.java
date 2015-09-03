@@ -17,14 +17,14 @@ public class MyOpenHelper extends SQLiteOpenHelper{
 
 
     public MyOpenHelper(Context context) {
-
+        super(context, DATABASE_NAME, null, DATABASE_VERSION);
 
 
     } // Constructor
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        
+
     }
 
     @Override
