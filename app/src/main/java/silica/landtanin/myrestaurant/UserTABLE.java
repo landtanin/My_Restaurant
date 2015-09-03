@@ -1,3 +1,5 @@
+package silica.landtanin.myrestaurant;
+
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 

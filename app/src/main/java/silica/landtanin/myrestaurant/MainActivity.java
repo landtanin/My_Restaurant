@@ -7,11 +7,21 @@ import android.view.MenuItem;
 
 public class MainActivity extends AppCompatActivity {
 
+    // Explicit
+    private UserTABLE objUserTABLE;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // Create & Connected Database
+        createAndConnectDatabase();
     } // onCreate
+
+    private void createAndConnectDatabase() {
+        objUserTABLE = new UserTABLE(this);
+    } // createAndConnectDatabase
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -34,4 +44,4 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
-}
+} // Main Class
