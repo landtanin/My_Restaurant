@@ -2,6 +2,7 @@ package silica.landtanin.myrestaurant;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
@@ -92,15 +93,24 @@ public class MainActivity extends AppCompatActivity {
 
     } // clickLogin
 
-    private void welcomeDialog(String strName) {
+    private void welcomeDialog(final String strName) {
 
-        AlertDialog.Builder objBuilder = new AlertDialog.Builder(this);
+        final AlertDialog.Builder objBuilder = new AlertDialog.Builder(this);
         objBuilder.setIcon(R.drawable.icon_cow);
         objBuilder.setTitle("Welcome Officer");
         objBuilder.setMessage("ยินดีต้อนรับ" + strName + "\n" + "สู่ร้านของเรา");
         objBuilder.setPositiveButton("ตกลง", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
+
+                // Intent to OrderActivity
+                Intent objIntent = new Intent(MainActivity.this, OrderActivity.class);
+                objIntent.putExtra("Officer", strName);
+                startActivity(objIntent);
+
+                finish();
+
+
                 dialogInterface.dismiss();
             }
         });
