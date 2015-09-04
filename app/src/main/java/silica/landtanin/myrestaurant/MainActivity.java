@@ -1,5 +1,7 @@
 package silica.landtanin.myrestaurant;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
@@ -7,6 +9,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.EditText;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -26,11 +30,15 @@ public class MainActivity extends AppCompatActivity {
     // Explicit
     private UserTABLE objUserTABLE;
     private FoodTABLE objFoodTABLE;
+    private EditText userEditText, passwordEditText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // bindWidget
+        bindWidget();
 
         // Create & Connected Database
         createAndConnectDatabase();
@@ -45,6 +53,78 @@ public class MainActivity extends AppCompatActivity {
         synJSONtoSQLite();
 
     } // onCreate
+
+    private void bindWidget() {
+        userEditText = (EditText) findViewById(R.id.editText);
+        passwordEditText = (EditText) findViewById(R.id.editText2);
+    }
+
+    public void clickLogin(View view) {
+
+        String strUser = userEditText.getText().toString().trim();
+        String strPassword = passwordEditText.getText().toString().trim();
+
+        // checkZero
+        if (strUser.equals("") || strPassword.equals("")) {
+
+            // Have Space
+            errorDialog("Have Space", "Please fill in the blank");
+
+        } else {
+
+            // No Space
+            try {
+
+                String[] strMyresult = objUserTABLE.searchUser(strUser);
+                if (strPassword.equals(strMyresult[2])) {
+                    welcomeDialog(strMyresult[3]);
+                } else {
+                    errorDialog("Password Failed", "Please try again");
+                }
+
+            } catch (Exception e) {
+                errorDialog("ไม่มี User", "ไม่มี" + strUser + "ในฐานข้อมูล");
+            }
+
+        } // if
+
+
+
+    } // clickLogin
+
+    private void welcomeDialog(String strName) {
+
+        AlertDialog.Builder objBuilder = new AlertDialog.Builder(this);
+        objBuilder.setIcon(R.drawable.icon_cow);
+        objBuilder.setTitle("Welcome Officer");
+        objBuilder.setMessage("ยินดีต้อนรับ" + strName + "\n" + "สู่ร้านของเรา");
+        objBuilder.setPositiveButton("ตกลง", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+        objBuilder.show();
+
+    }
+
+    private void errorDialog(String strTitle, String strMessage) {
+
+        AlertDialog.Builder objBuilder = new AlertDialog.Builder(this);
+        objBuilder.setIcon(R.drawable.icon_question);
+        objBuilder.setTitle(strTitle);
+        objBuilder.setMessage(strMessage);
+        objBuilder.setCancelable(false);
+        objBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+        objBuilder.show();
+
+    } // errorDialog
+
 
     private void synJSONtoSQLite() {
 
