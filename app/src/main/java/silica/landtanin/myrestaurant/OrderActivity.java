@@ -33,7 +33,22 @@ public class OrderActivity extends AppCompatActivity {
         // Create Desk Spinner
         createDeskSpinner();
 
+        // Create ListView
+        createListView();
+
     } // onCreate
+
+    private void createListView() {
+
+        FoodTABLE objFoodTABLE = new FoodTABLE(this);
+        String[] strSource = objFoodTABLE.readAllSource();
+        String[] strFood = objFoodTABLE.readAllFood();
+        String[] strPrice = objFoodTABLE.readAllPrice();
+
+        MyAdapter objMyAdapter = new MyAdapter(OrderActivity.this, strPrice, strFood, strSource);
+        foodListView.setAdapter(objMyAdapter);
+
+    } // createListView
 
     private void createDeskSpinner() {
         final String[] strDeskArray = {"1", "2", "3", "4", "5"};

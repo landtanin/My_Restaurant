@@ -2,6 +2,7 @@ package silica.landtanin.myrestaurant;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 /**
@@ -25,6 +26,72 @@ public class FoodTABLE {
         readSqLiteDatabase = objMyOpenHelper.getReadableDatabase();
 
     } // Constructor
+
+    public String[] readAllFood() {
+
+        String[] strFood = null;
+        Cursor objCursor = readSqLiteDatabase.query(FOOD_TABLE,
+                new String[]{COLUMN_ID_FOOD, COLUMN_FOOD},
+                null, null, null, null, null);
+
+        if (objCursor != null) {
+            objCursor.moveToFirst();
+            strFood = new String[objCursor.getCount()];
+            for (int i = 0; i < objCursor.getCount(); i++) {
+                strFood[i] = objCursor.getString(objCursor.getColumnIndex(COLUMN_FOOD));
+                objCursor.moveToNext();
+            } // for
+        } // if
+        objCursor.close();
+
+        return strFood;
+    } // readAll
+
+
+
+
+    public String[] readAllSource() {
+
+        String[] strFood = null;
+        Cursor objCursor = readSqLiteDatabase.query(FOOD_TABLE,
+                new String[]{COLUMN_ID_FOOD, COLUMN_SOURCE},
+                null, null, null, null, null);
+
+        if (objCursor != null) {
+            objCursor.moveToFirst();
+            strFood = new String[objCursor.getCount()];
+            for (int i = 0; i < objCursor.getCount(); i++) {
+                strFood[i] = objCursor.getString(objCursor.getColumnIndex(COLUMN_SOURCE));
+                objCursor.moveToNext();
+            } // for
+        } // if
+        objCursor.close();
+
+        return strFood;
+    } // readAll
+
+    public String[] readAllPrice() {
+
+        String[] strFood = null;
+        Cursor objCursor = readSqLiteDatabase.query(FOOD_TABLE,
+                new String[]{COLUMN_ID_FOOD, COLUMN_PRICE},
+                null, null, null, null, null);
+
+        if (objCursor != null) {
+            objCursor.moveToFirst();
+            strFood = new String[objCursor.getCount()];
+            for (int i = 0; i < objCursor.getCount(); i++) {
+                strFood[i] = objCursor.getString(objCursor.getColumnIndex(COLUMN_PRICE));
+                objCursor.moveToNext();
+            } // for
+        } // if
+        objCursor.close();
+
+        return strFood;
+    } // readAll
+
+
+
 
     public long addFood(String strFood, String strSource, String strPrice) {
 
